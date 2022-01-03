@@ -6,7 +6,7 @@ POST http://localhost:3000/createUser
 Content-Type: application/json
 
 {
-    "username": "snuttsson",
+    "username": "snuttsson223",
     "pwd": "123"
 }
 
@@ -59,3 +59,7 @@ Content-Type: application/json
 {
     "Id": 2
 }
+
+###
+
+GET http://localhost:3000/orders
