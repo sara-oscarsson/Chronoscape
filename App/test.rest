@@ -9,3 +9,13 @@ Content-Type: application/json
     "username": "snuttsson",
     "pwd": "123"
 }
+
+###
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username": "snuttsson",
+    "pwd": "123"
+}

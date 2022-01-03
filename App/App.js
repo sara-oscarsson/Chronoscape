@@ -1,138 +1,156 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
+const cookie = require("cookie-session");
+const uuid = require("uuid");
 
 //Show index.html in public folder
 /* app.use(express.static('public')); */
 //Use json
 app.use(express.json());
 
-const { createPool } = require('mysql');
+//Create a connection to database
+const { createPool } = require("mysql");
 const pool = createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'chronoscape',
-    multipleStatements: true
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "chronoscape",
+  multipleStatements: true,
 });
+
+// Creates cookie session
+app.use(
+  cookie({
+    secret: "kjfbdgfjdbgjdfbgdfgbnfdng!1",
+    maxAge: 1000 * 60,
+    sameSite: "strict",
+    httpOnly: true,
+    secure: false,
+  })
+);
 
 //Endpoints for user
 
 //Get all users
-app.get('/users', (req, res) => {
-    //Send a query to SQL database and send the result back
-    pool.query('SELECT * FROM `user`', (err, result, fields)=> {
-        if(err){
-            return console.log(err);
-        }
-        res.send(result);
-    });
+app.get("/users", (req, res) => {
+  //Send a query to SQL database and send the result back
+  pool.query("SELECT * FROM `user`", (err, result, fields) => {
+    if (err) {
+      return console.log(err);
+    }
+    res.send(result);
+  });
 });
 
 //Create a new user
-app.post('/createUser', async (req, res, next) => {
-    const hashedPwd = await bcrypt.hash(req.body.pwd, 10);
-    try{
-        //Check if username already exists
-        pool.query('SELECT * FROM `user`', (err, result, fields) => {
+app.post("/createUser", async (req, res, next) => {
+  const hashedPwd = await bcrypt.hash(req.body.pwd, 10);
+  try {
+    //Check if username already exists
+    pool.query("SELECT * FROM `user`", (err, result, fields) => {
+      if (err) {
+        return console.log(err);
+      }
+      let UsernameTaken = result.find((user) => {
+        return user.userName === req.body.username;
+      });
+      if (UsernameTaken) {
+        return res.json("Username is already taken");
+      } else {
+        //Create a new user with admin false
+        pool.query(
+          `INSERT INTO user (userId, userName, password, admin) VALUES (NULL, '${req.body.username}', '${hashedPwd}', 0)`,
+          (err, result, fields) => {
             if (err) {
-                return console.log(err);
+              return console.log("FEL:" + err);
             }
-            let UsernameTaken = result.find(user => {
-                return user.userName === req.body.username;
-            });
-            if (UsernameTaken) {
-                return res.json('Username is already taken');          
-            } else {
-                //Create a new user with admin false
-                pool.query(`INSERT INTO user (userId, userName, password, admin) VALUES (NULL, '${req.body.username}', '${hashedPwd}', 0)`,(err, result, fields) => {
-                    if(err) {
-                        return console.log('FEL:'+ err);
-                    }
-                    res.send(result);
-                })  
-
-            }          
-        })
-        
-        
-    } catch (err){
-        next(err);       
-    }
-
+            res.send(result);
+          }
+        );
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 //Login
-app.post('/login', (req, res, next) => {
+app.post("/login", (req, res, next) => {
+  try {
+    pool.query(
+      `SELECT * FROM user WHERE userName = "${req.body.username}";`,
+      async (err, result, fields) => {
+        if (err) {
+          return console.log("FEL: " + err);
+        }
+        if (result.length === 0) {
+          return res.send("User does not exist");
+        }
 
+        if (await bcrypt.compare(req.body.pwd, result[0].password)) {
+          if (req.session.id) {
+            return res.json("You are already logged in");
+          }
+
+          // Create cookie-session
+          req.session.id = uuid.v4();
+          req.session.username = req.body.username;
+          req.session.loginDate = new Date().toLocaleString();
+          req.session.userID = result[0].userId;
+          console.log(req.session);
+          return res.json({ login: true, name: req.body.username });
+        } else {
+          return res.send("Wrong password!");
+        }
+      }
+    );
+  } catch (err) {
+    next(err);
+  }
 });
 
 //Log out
-app.post('/logout', (req, res, next) => {
-
-});
+app.post("/logout", (req, res, next) => {});
 
 //Delete user
-app.delete('/deleteUser', (req, res, next) => {
-
-})
-
+app.delete("/deleteUser", (req, res, next) => {});
 
 //Endpoints for order and payment
 
 //Get all orders
-app.get("/orders", async (req, res) => {
-    
-});
+app.get("/orders", async (req, res) => {});
 
 //Payment
-app.post("/payment", async (req, res) => {
-    
-});
+app.post("/payment", async (req, res) => {});
 
 //Create order
-app.post("/verify", async (req, res) => {
-
-});
+app.post("/verify", async (req, res) => {});
 
 //Cancel trip
-app.delete("/cancel", async (req, res) => {
-
-});
-
+app.delete("/cancel", async (req, res) => {});
 
 //Endpoints for products
 
 //Get all products
-app.get("/products", async (req, res) => {
-    
-});
+app.get("/products", async (req, res) => {});
 
 //Create new product
-app.post("/createProduct", async (req, res) => {
-
-});
+app.post("/createProduct", async (req, res) => {});
 
 //Update product
-app.put('/updateProduct', (req, res) => {
-
-});
+app.put("/updateProduct", (req, res) => {});
 
 //Delete product
-app.delete('/deleteProduct', (req, res) => {
-
-});
-
-
-
+app.delete("/deleteProduct", (req, res) => {});
 
 //Error handling
-app.use((err, req, res)=> {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong...');
-})
+app.use((err, req, res) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong...");
+});
 
 //Listen to port 3000
 app.listen(3000, () => {
-    console.log('listening to port 3000...');
+  console.log("listening to port 3000...");
 });
