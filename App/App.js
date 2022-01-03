@@ -4,10 +4,18 @@ const bcrypt = require("bcrypt");
 const cookie = require("cookie-session");
 const uuid = require("uuid");
 
+
+const env = require("dotenv").config(".env");
+
 //Show index.html in public folder
 app.use(express.static("public"));
 //Use json
 app.use(express.json());
+
+// Collect secret api key from .env file
+const secretKey = process.env.STRIPE_SECRET_KEY;
+// Connects key to stripe
+const stripe = require("stripe")(secretKey);
 
 //Create a connection to database
 const { createPool } = require("mysql");
@@ -48,7 +56,7 @@ app.post("/createUser", async (req, res, next) => {
   const hashedPwd = await bcrypt.hash(req.body.pwd, 10);
   try {
     //Check if username already exists
-    pool.query("SELECT * FROM `user`", (err, result, fields) => {
+    pool.query("SELECT * FROM `user`", async (err, result, fields) => {
       if (err) {
         return console.log(err);
       }
@@ -58,9 +66,13 @@ app.post("/createUser", async (req, res, next) => {
       if (UsernameTaken) {
         return res.json("Username is already taken");
       } else {
+        // Create a stripe customer
+        const customer = await stripe.customers.create({
+          name: req.body.username,
+        });
         //Create a new user with admin false
         pool.query(
-          `INSERT INTO user (userId, userName, password, admin) VALUES (NULL, '${req.body.username}', '${hashedPwd}', 0)`,
+          `INSERT INTO user (userId, userName, password, admin) VALUES ('${customer.id}', '${req.body.username}', '${hashedPwd}', 0)`,
           (err, result, fields) => {
             if (err) {
               return console.log("FEL:" + err);
@@ -119,7 +131,18 @@ app.delete("/logout", (req, res, next) => {
 //Endpoints for order and payment
 
 //Get all orders
-app.get("/orders", async (req, res) => {});
+app.get("/orders", async (req, res, next) => {
+  try {
+    pool.query("SELECT * FROM `order`", (err, result, fields) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.send(result);
+    });
+  } catch (err) {
+    next(err)
+  }
+});
 
 //Payment
 app.post("/payment", async (req, res) => {});
@@ -128,7 +151,7 @@ app.post("/payment", async (req, res) => {});
 app.post("/verify", async (req, res) => {});
 
 //Cancel trip
-app.delete("/cancel", async (req, res) => {});
+app.delete("/cancelTrip", async (req, res) => {});
 
 //Endpoints for products
 
