@@ -157,10 +157,30 @@ app.post("/createProduct", async (req, res) => {
   );
 });
 //Update product
-app.put("/updateProduct", (req, res) => {});
+app.put("/updateProduct", (req, res) => {
+  pool.query(
+    `UPDATE product SET productName = '${req.body.productName}', productDescription = '${req.body.productDescription}', productPrice = '${req.body.productPrice}' WHERE product.productId = ${req.body.Id};`,
+    (err, result, fields) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.send(result);
+    }
+  );
+});
 
 //Delete product
-app.delete("/deleteProduct", (req, res) => {});
+app.delete("/deleteProduct", (req, res) => {
+  pool.query(
+    `DELETE FROM product WHERE product.productId = ${req.body.Id}`,
+    (err, result, fields) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.send(result);
+    }
+  );
+});
 
 //Error handling
 app.use((req, res, err) => {

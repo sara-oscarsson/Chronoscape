@@ -38,3 +38,24 @@ Content-Type: application/json
     "productDescription": "Res iväg till italien",
     "productPrice": 1337
 }
+
+###
+
+PUT http://localhost:3000/updateProduct
+Content-Type: application/json
+
+{
+    "productName": "Resa till Italien",
+    "productDescription": "Res iväg till italien",
+    "productPrice": 1337,
+    "Id": 1
+}
+
+###
+
+DELETE http://localhost:3000/deleteProduct
+Content-Type: application/json
+
+{
+    "Id": 2
+}
