@@ -5,7 +5,7 @@ const cookie = require("cookie-session");
 const uuid = require("uuid");
 
 //Show index.html in public folder
-/* app.use(express.static('public')); */
+app.use(express.static("public"));
 //Use json
 app.use(express.json());
 
@@ -111,10 +111,10 @@ app.post("/login", (req, res, next) => {
 });
 
 //Log out
-app.post("/logout", (req, res, next) => {});
-
-//Delete user
-app.delete("/deleteUser", (req, res, next) => {});
+app.delete("/logout", (req, res, next) => {
+  req.session = null;
+  res.json("You are now logged out!");
+});
 
 //Endpoints for order and payment
 
@@ -133,11 +133,29 @@ app.delete("/cancel", async (req, res) => {});
 //Endpoints for products
 
 //Get all products
-app.get("/products", async (req, res) => {});
+app.get("/products", async (req, res) => {
+  pool.query("SELECT * FROM `product`", (err, result, fields) => {
+    if (err) {
+      return console.log(err);
+    }
+    res.send(result);
+  });
+});
 
 //Create new product
-app.post("/createProduct", async (req, res) => {});
+app.post("/createProduct", async (req, res) => {
+  /* INSERT INTO `product` (`productId`, `productName`, `productDescription`, `productPrice`) VALUES (NULL, 'prodotto di ossiano', 'product of italy', '1'); */
 
+  pool.query(
+    `INSERT INTO product (productId, productName, productDescription, productPrice) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}');`,
+    (err, result, fields) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.send(result);
+    }
+  );
+});
 //Update product
 app.put("/updateProduct", (req, res) => {});
 
@@ -145,7 +163,7 @@ app.put("/updateProduct", (req, res) => {});
 app.delete("/deleteProduct", (req, res) => {});
 
 //Error handling
-app.use((err, req, res) => {
+app.use((req, res, err) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong...");
 });

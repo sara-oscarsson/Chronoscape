@@ -19,3 +19,22 @@ Content-Type: application/json
     "username": "snuttsson",
     "pwd": "123"
 }
+
+###
+
+DELETE http://localhost:3000/logout
+
+###
+
+GET http://localhost:3000/products
+
+###
+
+POST http://localhost:3000/createProduct
+Content-Type: application/json
+
+{
+    "productName": "Resa till Italien",
+    "productDescription": "Res iväg till italien",
+    "productPrice": 1337
+}
