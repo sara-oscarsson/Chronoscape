@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const cookie = require("cookie-session");
 const uuid = require("uuid");
 
-
 const env = require("dotenv").config(".env");
 
 //Show index.html in public folder
@@ -122,6 +121,15 @@ app.post("/login", (req, res, next) => {
   }
 });
 
+//Check if cookie session is live
+app.get("/live", (req, res) => {
+  if (req.session.id) {
+    res.json(req.session.username);
+  } else {
+    res.json(false);
+  }
+});
+
 //Log out
 app.delete("/logout", (req, res, next) => {
   req.session = null;
@@ -140,7 +148,7 @@ app.get("/orders", async (req, res, next) => {
       res.send(result);
     });
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
 
