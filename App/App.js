@@ -161,7 +161,7 @@ app.get("/products", async (req, res) => {
     if (err) {
       return console.log(err);
     }
-    res.send(result);
+    res.json(result);
   });
 });
 
@@ -170,7 +170,7 @@ app.post("/createProduct", async (req, res) => {
   /* INSERT INTO `product` (`productId`, `productName`, `productDescription`, `productPrice`) VALUES (NULL, 'prodotto di ossiano', 'product of italy', '1'); */
 
   pool.query(
-    `INSERT INTO product (productId, productName, productDescription, productPrice) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}');`,
+    `INSERT INTO product (productId, productName, productDescription, productPrice, imageSrc) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}', '${req.body.imageSrc}');`,
     (err, result, fields) => {
       if (err) {
         return console.log(err);
@@ -182,7 +182,7 @@ app.post("/createProduct", async (req, res) => {
 //Update product
 app.put("/updateProduct", (req, res) => {
   pool.query(
-    `UPDATE product SET productName = '${req.body.productName}', productDescription = '${req.body.productDescription}', productPrice = '${req.body.productPrice}' WHERE product.productId = ${req.body.Id};`,
+    `UPDATE product SET productName = '${req.body.productName}', productDescription = '${req.body.productDescription}', productPrice = '${req.body.productPrice}', imageSrc = '${req.body.imageSrc}' WHERE product.productId = ${req.body.Id};`,
     (err, result, fields) => {
       if (err) {
         return console.log(err);
