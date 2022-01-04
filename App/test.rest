@@ -34,9 +34,10 @@ POST http://localhost:3000/createProduct
 Content-Type: application/json
 
 {
-    "productName": "Resa till Italien",
-    "productDescription": "Res iväg till italien",
-    "productPrice": 1337
+    "productName": "Resa till Italien2",
+    "productDescription": "Res iväg till italien2",
+    "productPrice": 1337,
+    "imageSrc": "lorempixum.png"
 }
 
 ###
@@ -45,9 +46,10 @@ PUT http://localhost:3000/updateProduct
 Content-Type: application/json
 
 {
-    "productName": "Resa till Italien",
-    "productDescription": "Res iväg till italien",
+    "productName": "Resa till Italien3",
+    "productDescription": "Res iväg till italien3",
     "productPrice": 1337,
+    "imageSrc": "lorempixum.png",
     "Id": 1
 }
 
