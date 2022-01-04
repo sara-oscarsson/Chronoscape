@@ -65,3 +65,6 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/orders
+###
+
+GET http://localhost:3000/live

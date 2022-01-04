@@ -3,7 +3,7 @@ window.addEventListener("load", () => {
 });
 
 const getProducts = async () => {
-  let products = await makeRequest("http://localhost:3000/products", "GET");
+  let products = await makeRequest("/products", "GET");
   showProducts(products);
 };
 
