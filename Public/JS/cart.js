@@ -3,6 +3,11 @@ window.addEventListener("load", () => {
   checkCart();
 });
 
+//Connect to stripe with publishable key
+let stripe = Stripe(
+  "pk_test_51KDqsTCio34vZIfrWGRiv3voRqKxEDW0DBfjwglAjpIx7j57i8zbBDGBxbPF7NjlGnOtxOSNuUy3JYB5gd1tujI200Q9eLuoi3"
+);
+
 const checkCart = async () => {
   let paymentContainer = document.getElementById("paymentContainer");
 
@@ -79,7 +84,23 @@ const showTrip = () => {
   container.append(productWrapper);
 };
 
-const paymentWithStripe = () => {
+const paymentWithStripe = async () => {
+  let currentCart = localStorage.getItem("cart");
+  let response = await fetch("/payment", {
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+    body: currentCart,
+  })
+    .then((result) => {
+      return result.json();
+    })
+    .then((session) => {
+      console.log(session);
+      localStorage.setItem("sessionID", session.id);
+      localStorage.removeItem("cart");
+      return stripe.redirectToCheckout({ sessionId: session.id });
+    })
+    .catch((err) => console.error(err));
   console.log("%cMOOOOONEEEYY", "color: green; font-size: 30px;");
 };
 
