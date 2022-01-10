@@ -30,7 +30,7 @@ const pool = createPool({
 app.use(
   cookie({
     secret: "kjfbdgfjdbgjdfbgdfgbnfdng!1",
-    maxAge: 1000 * 60,
+    maxAge: 1000 * 600000,
     sameSite: "strict",
     httpOnly: true,
     secure: false,
@@ -56,6 +56,9 @@ app.get("/users", (req, res, next) => {
 
 //Create a new user
 app.post("/createUser", async (req, res, next) => {
+  if (req.session.id) {
+    return res.json("You are already logged in");
+  }
   const hashedPwd = await bcrypt.hash(req.body.pwd, 10);
   try {
     //Check if username already exists
@@ -153,7 +156,7 @@ app.delete("/logout", (req, res, next) => {
 //Get all orders
 app.get("/orders", async (req, res, next) => {
   try {
-    pool.query("SELECT * FROM `order`", (err, result, fields) => {
+    pool.query("SELECT * FROM `orders`", (err, result, fields) => {
       if (err) {
         return console.log(err);
       }
@@ -165,10 +168,64 @@ app.get("/orders", async (req, res, next) => {
 });
 
 //Payment
-app.post("/payment", async (req, res) => {});
+app.post("/payment", async (req, res, next) => {
+  try {
+    let lineItem = {
+      description: req.body.productDescription,
+      price_data: {
+        currency: "sek",
+        product_data: {
+          name: req.body.productName,
+        },
+        unit_amount: req.body.productPrice * 100,
+      },
+      quantity: 1,
+    };
+    // Save body in variable
+    let boughtTrips = [];
+    boughtTrips.push(lineItem);
+
+    // Save time and date for order
+    let orderDate = new Date().toLocaleString();
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: boughtTrips,
+      mode: "payment",
+      customer: req.session.userID,
+      metadata: {
+        date: orderDate,
+        name: req.body.productName,
+      },
+      success_url: `http://localhost:3000/success.html`,
+      cancel_url: "https://localhost:3000/declined.html",
+    });
+    res.status(200).json({ id: session.id });
+  } catch (err) {
+    next(err);
+  }
+});
 
 //Create order
-app.post("/verify", async (req, res) => {});
+app.post("/verify", async (req, res) => {
+  // Session id is sent in req.body
+  const sessionID = req.body.sessionID;
+
+  // We collect info about the session from stripe
+  const paymentInfo = await stripe.checkout.sessions.retrieve(sessionID);
+  // Check if order is paid
+  if (paymentInfo.payment_status === "paid") {
+    pool.query(
+      `INSERT INTO orders (orderId, userId, orderDate, totalPrice, orderedProducts) VALUES ('${paymentInfo.id}', '${req.session.userID}', '${paymentInfo.metadata.date}', '${paymentInfo.amount_total}', '${paymentInfo.metadata.name}')`,
+      async (err, result, fields) => {
+        if (err) {
+          return console.log("FEL: " + err);
+        }
+        res.json("bra gick det");
+      }
+    );
+  }
+});
 
 //Cancel trip
 app.delete("/cancelTrip", async (req, res) => {});
