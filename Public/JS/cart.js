@@ -83,6 +83,7 @@ const paymentWithStripe = () => {
   console.log("%cMOOOOONEEEYY", "color: green; font-size: 30px;");
 };
 
+//Connect to backend with fetch
 const makeRequest = async (url, requestMethod, body) => {
   try {
     const response = await fetch(url, {

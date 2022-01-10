@@ -1,5 +1,6 @@
 window.addEventListener("load", () => {
   getProducts();
+  checkIfLoggedIn();
 });
 
 const getProducts = async () => {
@@ -63,6 +64,15 @@ const showProducts = (products) => {
   });
 };
 
+const checkIfLoggedIn = async () => {
+  let userDisplay = document.getElementById("userDisplay");
+  let data = await makeRequest("/live", "GET");
+  if (data) {
+    userDisplay.innerText = "Welcome " + data;
+  }
+};
+
+//Connect to backend with fetch
 const makeRequest = async (url, requestMethod, body) => {
   try {
     const response = await fetch(url, {
