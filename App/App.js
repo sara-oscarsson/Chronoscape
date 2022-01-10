@@ -40,14 +40,18 @@ app.use(
 //Endpoints for user
 
 //Get all users
-app.get("/users", (req, res) => {
-  //Send a query to SQL database and send the result back
-  pool.query("SELECT * FROM `user`", (err, result, fields) => {
-    if (err) {
-      return console.log(err);
-    }
-    res.send(result);
-  });
+app.get("/users", (req, res, next) => {
+  try {
+    //Send a query to SQL database and send the result back
+    pool.query("SELECT * FROM `user`", (err, result, fields) => {
+      if (err) {
+        return console.log(err);
+      }
+      res.send(result);
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
 //Create a new user
@@ -63,7 +67,7 @@ app.post("/createUser", async (req, res, next) => {
         return user.userName === req.body.username;
       });
       if (UsernameTaken) {
-        return res.json("Username is already taken");
+        return res.json({ created: false });
       } else {
         // Create a stripe customer
         const customer = await stripe.customers.create({
@@ -76,7 +80,7 @@ app.post("/createUser", async (req, res, next) => {
             if (err) {
               return console.log("FEL:" + err);
             }
-            res.send(result);
+            res.send({ created: true });
           }
         );
       }
@@ -96,7 +100,7 @@ app.post("/login", (req, res, next) => {
           return console.log("FEL: " + err);
         }
         if (result.length === 0) {
-          return res.send("User does not exist");
+          return res.json({ login: false });
         }
 
         if (await bcrypt.compare(req.body.pwd, result[0].password)) {
@@ -110,9 +114,9 @@ app.post("/login", (req, res, next) => {
           req.session.loginDate = new Date().toLocaleString();
           req.session.userID = result[0].userId;
           console.log(req.session);
-          return res.json({ login: true, name: req.body.username });
+          return res.send({ login: true, name: req.body.username });
         } else {
-          return res.send("Wrong password!");
+          return res.json("Wrong password!");
         }
       }
     );
@@ -122,18 +126,26 @@ app.post("/login", (req, res, next) => {
 });
 
 //Check if cookie session is live
-app.get("/live", (req, res) => {
-  if (req.session.id) {
-    res.json(req.session.username);
-  } else {
-    res.json(false);
+app.get("/live", (req, res, next) => {
+  try {
+    if (req.session.id) {
+      res.json(req.session.username);
+    } else {
+      res.json(false);
+    }
+  } catch (err) {
+    next(err);
   }
 });
 
 //Log out
 app.delete("/logout", (req, res, next) => {
-  req.session = null;
-  res.json("You are now logged out!");
+  try {
+    req.session = null;
+    res.json("You are now logged out!");
+  } catch (err) {
+    next(err);
+  }
 });
 
 //Endpoints for order and payment
@@ -164,29 +176,36 @@ app.delete("/cancelTrip", async (req, res) => {});
 //Endpoints for products
 
 //Get all products
-app.get("/products", async (req, res) => {
-  pool.query("SELECT * FROM `product`", (err, result, fields) => {
-    if (err) {
-      return console.log(err);
-    }
-    res.json(result);
-  });
-});
-
-//Create new product
-app.post("/createProduct", async (req, res) => {
-  /* INSERT INTO `product` (`productId`, `productName`, `productDescription`, `productPrice`) VALUES (NULL, 'prodotto di ossiano', 'product of italy', '1'); */
-
-  pool.query(
-    `INSERT INTO product (productId, productName, productDescription, productPrice, imageSrc) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}', '${req.body.imageSrc}');`,
-    (err, result, fields) => {
+app.get("/products", async (req, res, next) => {
+  try {
+    pool.query("SELECT * FROM `product`", (err, result, fields) => {
       if (err) {
         return console.log(err);
       }
-      res.send(result);
-    }
-  );
+      res.json(result);
+    });
+  } catch (err) {
+    next(err);
+  }
 });
+
+//Create new product
+app.post("/createProduct", async (req, res, next) => {
+  try {
+    pool.query(
+      `INSERT INTO product (productId, productName, productDescription, productPrice, imageSrc) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}', '${req.body.imageSrc}');`,
+      (err, result, fields) => {
+        if (err) {
+          return console.log(err);
+        }
+        res.send(result);
+      }
+    );
+  } catch (err) {
+    next(err);
+  }
+});
+
 //Update product
 app.put("/updateProduct", (req, res) => {
   pool.query(
@@ -201,16 +220,20 @@ app.put("/updateProduct", (req, res) => {
 });
 
 //Delete product
-app.delete("/deleteProduct", (req, res) => {
-  pool.query(
-    `DELETE FROM product WHERE product.productId = ${req.body.Id}`,
-    (err, result, fields) => {
-      if (err) {
-        return console.log(err);
+app.delete("/deleteProduct", (req, res, next) => {
+  try {
+    pool.query(
+      `DELETE FROM product WHERE product.productId = ${req.body.Id}`,
+      (err, result, fields) => {
+        if (err) {
+          return console.log(err);
+        }
+        res.send(result);
       }
-      res.send(result);
-    }
-  );
+    );
+  } catch (err) {
+    next(err);
+  }
 });
 
 //Error handling
