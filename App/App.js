@@ -271,6 +271,7 @@ app.get("/products", async (req, res, next) => {
 
 //Create new product
 app.post("/createProduct", async (req, res, next) => {
+  console.log(req.body.product)
   try {
     pool.query(
       `INSERT INTO product (productId, productName, productDescription, productPrice, imageSrc) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}', '${req.body.imageSrc}');`,
@@ -278,7 +279,7 @@ app.post("/createProduct", async (req, res, next) => {
         if (err) {
           return console.log(err);
         }
-        res.send(result);
+        res.send(true);
       }
     );
   } catch (err) {
