@@ -8,7 +8,7 @@ const checkIfLoggedIn = async () => {
   let userDisplay = document.getElementById("userDisplay");
   let data = await makeRequest("/live", "GET");
   if (data) {
-    userDisplay.innerText = "Welcome " + data;
+    userDisplay.innerText = "Welcome " + data.user;
     logoutDiv.innerHTML = "";
 
     let logoutButton = document.createElement("button");

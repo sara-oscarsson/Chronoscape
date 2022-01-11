@@ -30,7 +30,7 @@ const pool = createPool({
 app.use(
   cookie({
     secret: "kjfbdgfjdbgjdfbgdfgbnfdng!1",
-    maxAge: 1000 * 60,
+    maxAge: 1000 * 60000,
     sameSite: "strict",
     httpOnly: true,
     secure: false,
@@ -125,8 +125,22 @@ app.post("/login", (req, res, next) => {
           req.session.username = req.body.username;
           req.session.loginDate = new Date().toLocaleString();
           req.session.userID = result[0].userId;
+          req.session.admin = result[0].admin;
+
           console.log(req.session);
-          return res.send({ login: true, name: req.body.username });
+          if (result[0].admin) {
+            console.log("JA DU ÄR ADMIN");
+            return res.send({
+              login: true,
+              name: req.body.username,
+              admin: true,
+            });
+          }
+          return res.send({
+            login: true,
+            name: req.body.username,
+            admin: false,
+          });
         } else {
           return res.json("Wrong password!");
         }
@@ -141,7 +155,7 @@ app.post("/login", (req, res, next) => {
 app.get("/live", (req, res, next) => {
   try {
     if (req.session.id) {
-      res.json(req.session.username);
+      res.json({ user: req.session.username, admin: req.session.admin });
     } else {
       res.json(false);
     }
