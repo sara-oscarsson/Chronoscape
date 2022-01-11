@@ -30,7 +30,7 @@ const pool = createPool({
 app.use(
   cookie({
     secret: "kjfbdgfjdbgjdfbgdfgbnfdng!1",
-    maxAge: 1000 * 600000,
+    maxAge: 1000 * 60,
     sameSite: "strict",
     httpOnly: true,
     secure: false,
@@ -57,7 +57,7 @@ app.get("/users", (req, res, next) => {
 //Create a new user
 app.post("/createUser", async (req, res, next) => {
   if (req.session.id) {
-    return res.json("You are already logged in");
+    return res.json({ login: false, message: "You are already logged in" });
   }
   const hashedPwd = await bcrypt.hash(req.body.pwd, 10);
   try {
@@ -70,7 +70,7 @@ app.post("/createUser", async (req, res, next) => {
         return user.userName === req.body.username;
       });
       if (UsernameTaken) {
-        return res.json({ created: false });
+        return res.json({ login: false, message: "Username is already taken" });
       } else {
         // Create a stripe customer
         const customer = await stripe.customers.create({
@@ -83,7 +83,10 @@ app.post("/createUser", async (req, res, next) => {
             if (err) {
               return console.log("FEL:" + err);
             }
-            res.send({ created: true });
+            res.send({
+              login: true,
+              message: "You successfully created an account, login to travel!",
+            });
           }
         );
       }
@@ -103,12 +106,18 @@ app.post("/login", (req, res, next) => {
           return console.log("FEL: " + err);
         }
         if (result.length === 0) {
-          return res.json({ login: false });
+          return res.json({
+            login: false,
+            message: "Wrong username or password",
+          });
         }
 
         if (await bcrypt.compare(req.body.pwd, result[0].password)) {
           if (req.session.id) {
-            return res.json("You are already logged in");
+            return res.json({
+              login: false,
+              message: "You are already logged in",
+            });
           }
 
           // Create cookie-session
