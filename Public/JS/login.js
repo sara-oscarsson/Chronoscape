@@ -39,6 +39,10 @@ loginBtn.addEventListener("click", async () => {
     .then((answer) => {
       console.log(answer);
       if (answer.login) {
+        if (answer.admin) {
+          location.replace("http://localhost:3000/admin.html");
+          return;
+        }
         location.replace("http://localhost:3000/");
       } else {
         alert(answer.message);
