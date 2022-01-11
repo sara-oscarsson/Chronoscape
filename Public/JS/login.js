@@ -39,9 +39,9 @@ loginBtn.addEventListener("click", async () => {
     .then((answer) => {
       console.log(answer);
       if (answer.login) {
-        location.replace("http://localhost:3000/account.html");
+        location.replace("http://localhost:3000/");
       } else {
-        alert("Wrong username or password");
+        alert(answer.message);
       }
     })
     .catch((err) => console.error(err));
@@ -52,6 +52,11 @@ let registerBtn = document.getElementById("registerBtn");
 registerBtn.addEventListener("click", async () => {
   let newUsername = document.getElementById("newUsename");
   let newPwd = document.getElementById("newPwd");
+
+  if (newPwd.value === "" || newUsername.value === "") {
+    alert("You can't leave any fields empty");
+    return;
+  }
 
   let user = {
     username: newUsername.value,
@@ -68,13 +73,15 @@ registerBtn.addEventListener("click", async () => {
     })
     .then((answer) => {
       console.log(answer);
-      if (answer.created) {
+      if (!answer.login) {
+        alert(answer.message);
+        return;
+      }
+      if (answer) {
         registerContainer.style.display = "none";
         loginContainer.style.display = "block";
         changeDisplay.innerText = "Sign up to travel";
         alert("Your account was successfully created! Log in to travel!");
-      } else {
-        alert("Username is already taken");
       }
       newUsername.value = "";
       newPwd.value = "";
