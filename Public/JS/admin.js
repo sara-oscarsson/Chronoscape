@@ -92,6 +92,30 @@ createButton.addEventListener("click", async () => {
         imageSrc = "";
       }
       console.log(answer);
+      if (answer) {
+        uploadImage();
+      }
     })
     .catch((err) => console.error(err));
 });
+
+const uploadImage = async () => {
+  let inputImageSrc = document.getElementById("4");
+
+  var body = new FormData();
+  body.append("image", inputImageSrc.files[0]);
+
+  let data = await fetch("/upload", {
+    method: "POST",
+    body: body,
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((answer) => {
+      if (answer) {
+        console.log("Uploaded an image: " + answer);
+      }
+    })
+    .catch((err) => console.error(err));
+};

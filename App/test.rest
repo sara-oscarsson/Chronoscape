@@ -64,6 +64,15 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3000/upload
+Content-Type: application/json
+
+{
+    "imageSrc": "blabla.png"
+}
+
+###
+
 GET http://localhost:3000/orders
 ###
 

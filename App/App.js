@@ -4,6 +4,21 @@ const bcrypt = require("bcrypt");
 const cookie = require("cookie-session");
 const uuid = require("uuid");
 
+//Middleware that can be used to upload files
+const multer = require("multer");
+
+//So image isn't saved in this folder
+const filePath = __dirname.replace("App", "");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, filePath + "public/productImages");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
+
 const env = require("dotenv").config(".env");
 
 //Show index.html in public folder
@@ -271,13 +286,14 @@ app.get("/products", async (req, res, next) => {
 
 //Create new product
 app.post("/createProduct", async (req, res, next) => {
-  console.log(req.body.product)
+  console.log(req.body.product);
   try {
     pool.query(
       `INSERT INTO product (productId, productName, productDescription, productPrice, imageSrc) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}', '${req.body.imageSrc}');`,
       (err, result, fields) => {
         if (err) {
-          return console.log(err);
+          console.log(err);
+          return res.send(false);
         }
         res.send(true);
       }
@@ -312,6 +328,15 @@ app.delete("/deleteProduct", (req, res, next) => {
         res.send(result);
       }
     );
+  } catch (err) {
+    next(err);
+  }
+});
+
+//Upload image to folder
+app.post("/upload", upload.single("image"), (req, res, next) => {
+  try {
+    res.send(true);
   } catch (err) {
     next(err);
   }
