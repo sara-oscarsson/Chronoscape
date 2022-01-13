@@ -46,11 +46,11 @@ PUT http://localhost:3000/updateProduct
 Content-Type: application/json
 
 {
-    "productName": "Resa till Italien3",
+    "productName": "Resa till Italien3000",
     "productDescription": "Res iväg till italien3",
     "productPrice": 1337,
     "imageSrc": "lorempixum.png",
-    "Id": 3
+    "productId": 1
 }
 
 ###

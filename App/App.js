@@ -286,7 +286,6 @@ app.get("/products", async (req, res, next) => {
 
 //Create new product
 app.post("/createProduct", async (req, res, next) => {
-  console.log(req.body.product);
   try {
     pool.query(
       `INSERT INTO product (productId, productName, productDescription, productPrice, imageSrc) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}', '${req.body.imageSrc}');`,
@@ -306,7 +305,7 @@ app.post("/createProduct", async (req, res, next) => {
 //Update product
 app.put("/updateProduct", (req, res) => {
   pool.query(
-    `UPDATE product SET productName = '${req.body.productName}', productDescription = '${req.body.productDescription}', productPrice = '${req.body.productPrice}', imageSrc = '${req.body.imageSrc}' WHERE product.productId = ${req.body.Id};`,
+    `UPDATE product SET productName = '${req.body.productName}', productDescription = '${req.body.productDescription}', productPrice = '${req.body.productPrice}', imageSrc = '${req.body.imageSrc}' WHERE product.productId = ${req.body.productId};`,
     (err, result, fields) => {
       if (err) {
         return console.log(err);
@@ -319,8 +318,9 @@ app.put("/updateProduct", (req, res) => {
 //Delete product
 app.delete("/deleteProduct", (req, res, next) => {
   try {
+    console.log(req.body.id + "knorr");
     pool.query(
-      `DELETE FROM product WHERE product.productId = ${req.body.Id}`,
+      `DELETE FROM product WHERE product.productId = '${req.body.id}'`,
       (err, result, fields) => {
         if (err) {
           return console.log(err);
