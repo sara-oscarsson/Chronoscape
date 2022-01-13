@@ -41,11 +41,40 @@ const getListOfProducts = async () => {
     productDescription.classList.add("adminProductDescription");
     productDescription.innerText = product.productDescription;
 
+    //Create a button to update product
+
+    let updateButton = document.createElement("button");
+    updateButton.innerText = "Update product";
+    updateButton.classList.add("updateButton");
+    updateButton.addEventListener("click", async () => {
+      updateProduct(product);
+    });
+
     //Create a add to cart button
     let deleteButton = document.createElement("button");
     deleteButton.classList.add("deleteButton");
     deleteButton.innerText = "Delete this trip";
-    deleteButton.addEventListener("click", () => {
+    deleteButton.addEventListener("click", async () => {
+      console.log(product.productId);
+      let productToDelete = {
+        id: product.productId,
+      };
+
+      let response = await fetch("/deleteProduct", {
+        headers: { "Content-Type": "application/json" },
+        method: "DELETE",
+        body: JSON.stringify(productToDelete),
+      })
+        .then((result) => {
+          return result.json();
+        })
+        .then((answer) => {
+          if (answer) {
+            alert("You've successfully deleted a product");
+          }
+          console.log(answer);
+        })
+        .catch((err) => console.error(err));
       console.log("delete " + product.productName);
     });
 
@@ -54,6 +83,7 @@ const getListOfProducts = async () => {
       productImage,
       productPrice,
       productDescription,
+      updateButton,
       deleteButton
     );
     listProducts.append(productWrapper);
@@ -118,4 +148,67 @@ const uploadImage = async () => {
       }
     })
     .catch((err) => console.error(err));
+};
+
+const updateProduct = async (product) => {
+  //Create a modal
+  let modal = document.createElement("div");
+  modal.classList.add("modal");
+
+  //Create a container
+  let container = document.createElement("div");
+  container.classList.add("containerUpdate");
+
+  //Create inputfields with current information about product
+  let titleInput = document.createElement("input");
+  titleInput.value = product.productName;
+
+  let descriptionInput = document.createElement("input");
+  descriptionInput.value = product.productDescription;
+
+  let priceInput = document.createElement("input");
+  priceInput.value = product.productPrice;
+
+  let saveBtn = document.createElement("button");
+  saveBtn.innerText = "Save";
+  saveBtn.addEventListener("click", async () => {
+    let updatedProduct = {
+      productName: titleInput.value,
+      productDescription: descriptionInput.value,
+      productPrice: priceInput.value,
+      productId: product.productId,
+      imageSrc: product.imageSrc,
+    };
+
+    //Update database
+    let response = await fetch("/updateProduct", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+      body: JSON.stringify(updatedProduct),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((answer) => {
+        console.log(answer);
+      })
+      .catch((err) => console.error(err));
+  });
+
+  //Append inputfields to container
+  container.append(titleInput, descriptionInput, priceInput, saveBtn);
+
+  //Append modal to body
+  modal.append(container);
+  let body = document.body;
+  body.append(modal);
+
+  //This function closes the window when you click outside the box
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
 };
