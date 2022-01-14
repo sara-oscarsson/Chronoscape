@@ -144,7 +144,6 @@ app.post("/login", (req, res, next) => {
 
           console.log(req.session);
           if (result[0].admin) {
-            console.log("JA DU ÄR ADMIN");
             return res.send({
               login: true,
               name: req.body.username,
@@ -318,7 +317,6 @@ app.put("/updateProduct", (req, res) => {
 //Delete product
 app.delete("/deleteProduct", (req, res, next) => {
   try {
-    console.log(req.body.id + "knorr");
     pool.query(
       `DELETE FROM product WHERE product.productId = '${req.body.id}'`,
       (err, result, fields) => {
