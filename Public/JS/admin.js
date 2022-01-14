@@ -14,6 +14,7 @@ const authenticationCheck = async () => {
 };
 
 const getListOfProducts = async () => {
+  listProducts.innerHTML = "";
   let response = await makeRequest("/products", "GET");
   console.log(response);
   response.forEach((product) => {
@@ -71,6 +72,7 @@ const getListOfProducts = async () => {
         .then((answer) => {
           if (answer) {
             alert("You've successfully deleted a product");
+            getListOfProducts();
           }
           console.log(answer);
         })
@@ -122,6 +124,7 @@ createButton.addEventListener("click", async () => {
         imageSrc = "";
       }
       console.log(answer);
+      getListOfProducts();
       if (answer) {
         uploadImage();
       }
@@ -193,6 +196,8 @@ const updateProduct = async (product) => {
       })
       .then((answer) => {
         console.log(answer);
+        body.removeChild(modal);
+        getListOfProducts();
       })
       .catch((err) => console.error(err));
   });
