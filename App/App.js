@@ -193,12 +193,15 @@ app.delete("/logout", (req, res, next) => {
 //Get all orders
 app.get("/orders", async (req, res, next) => {
   try {
-    pool.query("SELECT * FROM `orders`", (err, result, fields) => {
-      if (err) {
-        return console.log(err);
+    pool.query(
+      `SELECT * FROM orders WHERE orders.userId = '${req.session.userID}';`,
+      (err, result, fields) => {
+        if (err) {
+          return console.log(err);
+        }
+        res.send(result);
       }
-      res.send(result);
-    });
+    );
   } catch (err) {
     next(err);
   }
