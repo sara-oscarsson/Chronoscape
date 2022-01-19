@@ -43,7 +43,7 @@ loginBtn.addEventListener("click", async () => {
           location.replace("http://localhost:3000/admin.html");
           return;
         }
-        location.replace("http://localhost:3000/");
+        location.replace("http://localhost:3000/start.html");
       } else {
         alert(answer.message);
       }

@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
 const checkMyAccount = async () => {
   let data = await makeRequest("/live", "GET");
   if (!data) {
-    location.replace("http://localhost:3000/");
+    location.replace("http://localhost:3000/start.html");
     return;
   }
   getOrders();
