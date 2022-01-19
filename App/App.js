@@ -156,7 +156,10 @@ app.post("/login", (req, res, next) => {
             admin: false,
           });
         } else {
-          return res.json("Wrong password!");
+          return res.json({
+            login: false,
+            message: "Wrong password!",
+          });
         }
       }
     );

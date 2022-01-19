@@ -7,7 +7,7 @@ let listProducts = document.getElementById("listProducts");
 const authenticationCheck = async () => {
   let data = await makeRequest("/live", "GET");
   if (!data.admin) {
-    location.replace("http://localhost:3000/");
+    location.replace("http://localhost:3000/start.html");
     return;
   }
   getListOfProducts();
