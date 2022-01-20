@@ -96,7 +96,7 @@ app.post("/createUser", async (req, res, next) => {
           `INSERT INTO user (userId, userName, password, admin) VALUES ('${customer.id}', '${req.body.username}', '${hashedPwd}', 0)`,
           (err, result, fields) => {
             if (err) {
-              return console.log("FEL:" + err);
+              return console.log(err);
             }
             res.send({
               login: true,
@@ -118,7 +118,7 @@ app.post("/login", (req, res, next) => {
       `SELECT * FROM user WHERE userName = "${req.body.username}";`,
       async (err, result, fields) => {
         if (err) {
-          return console.log("FEL: " + err);
+          return console.log(err);
         }
         if (result.length === 0) {
           return res.json({
@@ -142,7 +142,6 @@ app.post("/login", (req, res, next) => {
           req.session.userID = result[0].userId;
           req.session.admin = result[0].admin;
 
-          console.log(req.session);
           if (result[0].admin) {
             return res.send({
               login: true,
@@ -262,7 +261,7 @@ app.post("/verify", async (req, res) => {
       `INSERT INTO orders (orderId, userId, orderDate, totalPrice, orderedProducts) VALUES ('${paymentInfo.id}', '${req.session.userID}', '${paymentInfo.metadata.date}', '${paymentInfo.amount_total}', '${paymentInfo.metadata.name}')`,
       async (err, result, fields) => {
         if (err) {
-          return console.log("FEL: " + err);
+          return console.log(err);
         }
         res.json("bra gick det");
       }
@@ -348,7 +347,6 @@ app.post("/upload", upload.single("image"), (req, res, next) => {
 
 //Error handling
 app.use((req, res, err) => {
-  console.error(err.stack);
   res.status(500).send("Something went wrong...");
 });
 

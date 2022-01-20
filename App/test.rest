@@ -6,7 +6,7 @@ POST http://localhost:3000/createUser
 Content-Type: application/json
 
 {
-    "username": "snuttsson2234",
+    "username": "test",
     "pwd": "123"
 }
 
@@ -16,7 +16,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "username": "snuttsson2234",
+    "username": "test",
     "pwd": "123"
 }
 
@@ -35,7 +35,7 @@ Content-Type: application/json
 
 {
     "productName": "test",
-    "productDescription": "Res iväg till italien2",
+    "productDescription": "test",
     "productPrice": 1337,
     "imageSrc": "lorempixum.png"
 }
@@ -46,8 +46,8 @@ PUT http://localhost:3000/updateProduct
 Content-Type: application/json
 
 {
-    "productName": "Resa till Italien3000",
-    "productDescription": "Res iväg till italien3",
+    "productName": "test2",
+    "productDescription": "test2",
     "productPrice": 1337,
     "imageSrc": "lorempixum.png",
     "productId": 1
