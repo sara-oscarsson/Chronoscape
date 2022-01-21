@@ -3,9 +3,7 @@ const app = express();
 const bcrypt = require("bcrypt");
 const cookie = require("cookie-session");
 const uuid = require("uuid");
-const port = process.env.PORT || 3000;
-
-
+const port = process.env.PORT || 80;
 
 //Middleware that can be used to upload files
 const multer = require("multer");
