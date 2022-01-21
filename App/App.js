@@ -354,6 +354,6 @@ app.use((req, res, err) => {
 });
 
 //Listen to port 3000
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log("server listening to " + port);
 });
