@@ -348,7 +348,7 @@ app.post("/upload", upload.single("image"), (req, res, next) => {
 
 //Error handling
 app.use((req, res, next) => {
-  console.log("hej");
+  console.log(port);
   next();
 });
 
