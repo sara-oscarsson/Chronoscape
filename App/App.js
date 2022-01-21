@@ -348,7 +348,8 @@ app.post("/upload", upload.single("image"), (req, res, next) => {
 
 //Error handling
 app.use((req, res, err) => {
-  res.status(500).send("Something went wrong...");
+  console.log("hej");
+  next();
 });
 
 //Listen to port 3000
