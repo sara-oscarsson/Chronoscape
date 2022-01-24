@@ -3,7 +3,7 @@ const app = express();
 const bcrypt = require("bcrypt");
 const cookie = require("cookie-session");
 const uuid = require("uuid");
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 3000;
 
 //Middleware that can be used to upload files
 const multer = require("multer");
@@ -35,10 +35,10 @@ const stripe = require("stripe")(secretKey);
 //Create a connection to database
 const { createPool } = require("mysql");
 const pool = createPool({
-  host: "eu-cdbr-west-02.cleardb.net",
-  user: "ba5e4d065c0b01",
-  password: "c3b0f634",
-  database: "heroku_1d8e5a20b77f18b",
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "chronoscape",
   multipleStatements: true,
 });
 
