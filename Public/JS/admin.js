@@ -25,7 +25,7 @@ const getListOfProducts = async () => {
     //Create a title
     let productTitle = document.createElement("h3");
     productTitle.classList.add("adminProductTitle");
-    productTitle.innerText = product.productName;
+    productTitle.innerText = "Title: " + product.productName;
 
     //Create an image
     let productImage = document.createElement("img");
@@ -35,12 +35,16 @@ const getListOfProducts = async () => {
     //Create a price
     let productPrice = document.createElement("p");
     productPrice.classList.add("adminProductPrice");
-    productPrice.innerText = product.productPrice + ":-";
+    productPrice.innerText = "Price: " + product.productPrice + ":-";
 
     //Create a description
     let productDescription = document.createElement("p");
     productDescription.classList.add("adminProductDescription");
-    productDescription.innerText = product.productDescription;
+    productDescription.innerText = "Description: " + product.productDescription;
+
+    //Create a box for two buttons
+    let adminBtnBox = document.createElement("div");
+    adminBtnBox.classList.add("adminBtnBox");
 
     //Create a button to update product
 
@@ -80,13 +84,14 @@ const getListOfProducts = async () => {
       console.log("delete " + product.productName);
     });
 
+    adminBtnBox.append(updateButton, deleteButton);
+
     productWrapper.append(
       productTitle,
       productImage,
       productPrice,
       productDescription,
-      updateButton,
-      deleteButton
+      adminBtnBox
     );
     listProducts.append(productWrapper);
   });
@@ -148,6 +153,8 @@ const uploadImage = async () => {
     .then((answer) => {
       if (answer) {
         console.log("Uploaded an image: " + answer);
+        document.getElementById("4").value = "";
+        location.reload();
       }
     })
     .catch((err) => console.error(err));
@@ -161,6 +168,10 @@ const updateProduct = async (product) => {
   //Create a container
   let container = document.createElement("div");
   container.classList.add("containerUpdate");
+
+  //Create a title for modal
+  let boxTitle = document.createElement("h3");
+  boxTitle.innerText = "Update product and save";
 
   //Create inputfields with current information about product
   let titleInput = document.createElement("input");
@@ -203,7 +214,7 @@ const updateProduct = async (product) => {
   });
 
   //Append inputfields to container
-  container.append(titleInput, descriptionInput, priceInput, saveBtn);
+  container.append(boxTitle, titleInput, descriptionInput, priceInput, saveBtn);
 
   //Append modal to body
   modal.append(container);

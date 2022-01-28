@@ -7,30 +7,42 @@
     <title>Chronologin</title>
     <script src="./JS/login.js" defer></script>
     <link rel="stylesheet" href="./Styling/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Quicksand:wght@500&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>login</h1>
-    <div class="loginWrapper">
-      <div class="loginContainer">
-        <h3>Sign in to Chronoscape</h3>
-        <input id="uname" type="text" placeholder="Username" />
-        <input id="pwd" type="password" placeholder="Password" />
-        <button id="loginBtn">Sign in</button>
+    <main>
+      <div class="loginWrapper">
+        <div class="loginContainer">
+          <h3>Sign in to Chronoscape</h3>
+          <input id="uname" type="text" placeholder="Username" />
+          <input id="pwd" type="password" placeholder="Password" />
+          <button id="loginBtn">Sign in</button>
+        </div>
+        <div class="registerContainer">
+          <h3>Register</h3>
+          <input id="newUsename" type="text" placeholder="Create a username" />
+          <input
+            id="newPwd"
+            type="password"
+            placeholder="Create a strong password"
+          />
+          <button id="registerBtn">Register account</button>
+        </div>
+        <hr />
+        <div>
+          <button id="signUpBtn">Sign up to travel</button>
+        </div>
       </div>
-      <div class="registerContainer">
-        <h3>Register</h3>
-        <input id="newUsename" type="text" placeholder="Create a username" />
-        <input
-          id="newPwd"
-          type="password"
-          placeholder="Create a strong password"
-        />
-        <button id="registerBtn">Register account</button>
-      </div>
-      <hr />
-      <div>
-        <button id="signUpBtn">Sign up to travel</button>
-      </div>
-    </div>
+    </main>
+    <footer>
+      <a class="underline" href="terms.html">Terms & Conditions</a>
+      <a class="underline" href="contact.html">Contact Us</a>
+      <a class="underline" href="#">Reviews</a>
+    </footer>
   </body>
 </html>

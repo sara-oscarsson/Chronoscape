@@ -6,13 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chronoaccount</title>
     <script src="/JS/user.js" defer></script>
+    <link rel="stylesheet" href="./Styling/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Quicksand:wght@500&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body onload="checkMyAccount()">
     <header>
       <h1 id="userDisplay"></h1>
       <div id="logout"></div>
     </header>
-    <h1>My account</h1>
-    <div id="getOrders"></div>
+    <main class="account-main">
+      <h3>Previous orders</h3>
+      <div id="getOrders"></div>
+    </main>
+    <footer>
+      <a class="underline" href="terms.html">Terms & Conditions</a>
+      <a class="underline" href="contact.html">Contact Us</a>
+      <a class="underline" href="#">Reviews</a>
+    </footer>
   </body>
 </html>

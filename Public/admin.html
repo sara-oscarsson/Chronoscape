@@ -8,22 +8,37 @@
     <script src="/JS/user.js" defer></script>
     <script src="/JS/admin.js" defer></script>
     <link rel="stylesheet" href="./Styling/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Quicksand:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body class="adminBody">
     <header>
       <h1 id="userDisplay"></h1>
       <div id="logout"></div>
     </header>
-    <h1>ADMIN</h1>
-    <h3>Available trips</h3>
-    <div id="listProducts"></div>
-    <h1>Create products</h1>
-    <div class="products">
-      <input type="text" name="Trip name" id="1" placeholder="Trip name"></input>
-      <textarea type="text" name="Description" id="2" placeholder="Description"></textarea>
-      <input type="text" name="Product price" id="3" placeholder="Price"></input>
-      <input type="file" name="image" id="4"></input>
-      <button id="createBtn">Create product</button>
-    </div>
+    <main class="adminMain">
+      <h3 class="adminListitle">Available trips</h3>
+      <div id="listProducts"></div>
+      <h3>Create a new trip</h3>
+      <div class="adminCreate">
+        <input type="text" name="Trip name" id="1" placeholder="Trip name"></input>
+        <textarea type="text" name="Description" id="2" placeholder="Description"></textarea>
+        <input type="text" name="Product price" id="3" placeholder="Price"></input>
+        <input type="file" name="image" id="4"></input>
+        <button class="adminBtn" id="createBtn">Create product</button>
+      </div>
+    </main>
+    <footer>
+      <a class="underline" href="terms.html">Terms & Conditions</a>
+      <a class="underline" href="contact.html">Contact Us</a>
+      <a class="underline" href="#">Reviews</a>
+    </footer>
   </body>
 </html>
