@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const cookie = require("cookie-session");
 const uuid = require("uuid");
 const port = process.env.PORT || 3000;
+const fs = require("fs");
 
 //Middleware that can be used to upload files
 const multer = require("multer");
@@ -55,114 +56,92 @@ app.use(
 
 //Endpoints for user
 
-//Get all users
-app.get("/users", (req, res, next) => {
-  try {
-    //Send a query to SQL database and send the result back
-    pool.query("SELECT * FROM `user`", (err, result, fields) => {
-      if (err) {
-        return console.log(err);
-      }
-      res.send(result);
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
 //Create a new user
 app.post("/createUser", async (req, res, next) => {
   if (req.session.id) {
     return res.json({ login: false, message: "You are already logged in" });
   }
-  const hashedPwd = await bcrypt.hash(req.body.pwd, 10);
   try {
+    //Hash password
+    const hashedPwd = await bcrypt.hash(req.body.pwd, 10);
+
     //Check if username already exists
-    pool.query("SELECT * FROM `user`", async (err, result, fields) => {
-      if (err) {
-        return console.log(err);
-      }
-      let UsernameTaken = result.find((user) => {
-        return user.userName === req.body.username;
-      });
-      if (UsernameTaken) {
-        return res.json({ login: false, message: "Username is already taken" });
-      } else {
-        // Create a stripe customer
-        const customer = await stripe.customers.create({
-          name: req.body.username,
-        });
-        //Create a new user with admin false
-        pool.query(
-          `INSERT INTO user (userId, userName, password, admin) VALUES ('${customer.id}', '${req.body.username}', '${hashedPwd}', 0)`,
-          (err, result, fields) => {
-            if (err) {
-              return console.log(err);
-            }
-            res.send({
-              login: true,
-              message: "You successfully created an account, login to travel!",
-            });
-          }
-        );
-      }
+    const rawList = fs.readFileSync(__dirname + "/user.json");
+    const list = JSON.parse(rawList);
+    let userExist = list.find((user) => {
+      return user.userName === req.body.username;
     });
+    if (userExist) {
+      // Don't run code if userExist is true
+      return res.json({ login: false, message: "Username is already taken" });
+    } else {
+      // Create a stripe customer
+      const customer = await stripe.customers.create({
+        name: req.body.username,
+      });
+
+      /* Save customerid here in object */
+      let newUser = {
+        userId: customer.id,
+        userName: req.body.username,
+        password: hashedPwd,
+        admin: 0,
+      };
+      list.push(newUser);
+      fs.writeFileSync(__dirname + "/user.json", JSON.stringify(list));
+
+      return res.send({
+        login: true,
+        message: "You successfully created an account, login to travel!",
+      });
+    }
   } catch (err) {
     next(err);
   }
 });
 
 //Login
-app.post("/login", (req, res, next) => {
+app.post("/login", async (req, res, next) => {
+  if (req.session.id) {
+    return res.json("You are already logged in");
+  }
   try {
-    pool.query(
-      `SELECT * FROM user WHERE userName = "${req.body.username}";`,
-      async (err, result, fields) => {
-        if (err) {
-          return console.log(err);
-        }
-        if (result.length === 0) {
-          return res.json({
-            login: false,
-            message: "Wrong username or password",
-          });
-        }
+    let unparsedUserList = fs.readFileSync(__dirname + "/user.json");
+    let userList = JSON.parse(unparsedUserList);
+    let userExist = userList.find((user) => {
+      return user.userName === req.body.username;
+    });
+    if (
+      !userExist ||
+      !(await bcrypt.compare(req.body.pwd, userExist.password))
+    ) {
+      // Don't run code if userExist is true
+      return res.json({
+        login: false,
+        message: "Wrong username or password",
+      });
+    } else {
+      // Create cookie-session
+      req.session.id = uuid.v4();
+      req.session.username = req.body.username;
+      req.session.loginDate = new Date().toLocaleString();
+      req.session.userID = userExist.userId;
+      req.session.admin = userExist.admin;
 
-        if (await bcrypt.compare(req.body.pwd, result[0].password)) {
-          if (req.session.id) {
-            return res.json({
-              login: false,
-              message: "You are already logged in",
-            });
-          }
-
-          // Create cookie-session
-          req.session.id = uuid.v4();
-          req.session.username = req.body.username;
-          req.session.loginDate = new Date().toLocaleString();
-          req.session.userID = result[0].userId;
-          req.session.admin = result[0].admin;
-
-          if (result[0].admin) {
-            return res.send({
-              login: true,
-              name: req.body.username,
-              admin: true,
-            });
-          }
-          return res.send({
-            login: true,
-            name: req.body.username,
-            admin: false,
-          });
-        } else {
-          return res.json({
-            login: false,
-            message: "Wrong password!",
-          });
-        }
+      if (userExist.admin) {
+        return res.send({
+          login: true,
+          name: req.body.username,
+          admin: true,
+        });
+      } else {
+        return res.send({
+          login: true,
+          name: req.body.username,
+          admin: false,
+        });
       }
-    );
+    }
   } catch (err) {
     next(err);
   }
@@ -196,15 +175,14 @@ app.delete("/logout", (req, res, next) => {
 //Get all orders
 app.get("/orders", async (req, res, next) => {
   try {
-    pool.query(
-      `SELECT * FROM orders WHERE orders.userId = '${req.session.userID}';`,
-      (err, result, fields) => {
-        if (err) {
-          return console.log(err);
-        }
-        res.send(result);
-      }
-    );
+    if (!req.session.id) {
+      return res.json("Unauthorized");
+    }
+    let userID = req.session.userID;
+    let unParsedOrderlist = fs.readFileSync(__dirname + "/order.json");
+    let orderList = JSON.parse(unParsedOrderlist);
+    const result = orderList.filter((order) => order.userId === userID);
+    return res.json(result);
   } catch (err) {
     next(err);
   }
@@ -250,40 +228,54 @@ app.post("/payment", async (req, res, next) => {
 });
 
 //Create order
-app.post("/verify", async (req, res) => {
-  // Session id is sent in req.body
-  const sessionID = req.body.sessionID;
+app.post("/verify", async (req, res, next) => {
+  try {
+    // Session id is sent in req.body
+    const sessionID = req.body.sessionID;
 
-  // We collect info about the session from stripe
-  const paymentInfo = await stripe.checkout.sessions.retrieve(sessionID);
-  // Check if order is paid
-  if (paymentInfo.payment_status === "paid") {
-    pool.query(
-      `INSERT INTO orders (orderId, userId, orderDate, totalPrice, orderedProducts) VALUES ('${paymentInfo.id}', '${req.session.userID}', '${paymentInfo.metadata.date}', '${paymentInfo.amount_total}', '${paymentInfo.metadata.name}')`,
-      async (err, result, fields) => {
-        if (err) {
-          return console.log(err);
-        }
-        res.json("bra gick det");
+    // We collect info about the session from stripe
+    const paymentInfo = await stripe.checkout.sessions.retrieve(sessionID);
+    // Check if order is paid
+    if (paymentInfo.payment_status === "paid") {
+      // Create an object containing order info to save in json-file
+      let order = {
+        orderId: paymentInfo.id,
+        userId: req.session.userID,
+        orderDate: paymentInfo.metadata.date,
+        totalPrice: paymentInfo.amount_total,
+        orderedProducts: paymentInfo.metadata.name,
+      };
+      // Get list of verified orders and parse it
+      let unParsedOrderlist = fs.readFileSync(__dirname + "/order.json");
+      let orderList = JSON.parse(unParsedOrderlist);
+
+      // Check if order already exists
+      let alreadyExist = orderList.find((orderItem) => {
+        return orderItem.orderId === order.orderId;
+      });
+      if (alreadyExist) {
+        // Don't run code if alreadyExists is true
+        return res.json("Order already exists");
       }
-    );
+      // Save new order in json-file
+      orderList.push(order);
+      fs.writeFileSync(__dirname + "/order.json", JSON.stringify(orderList));
+      return res.json(true);
+    }
+  } catch (err) {
+    next(err);
   }
 });
-
-//Cancel trip
-app.delete("/cancelTrip", async (req, res) => {});
 
 //Endpoints for products
 
 //Get all products
 app.get("/products", async (req, res, next) => {
   try {
-    pool.query("SELECT * FROM `product`", (err, result, fields) => {
-      if (err) {
-        return console.log(err);
-      }
-      res.json(result);
-    });
+    const rawProductList = fs.readFileSync(__dirname + "/product.json");
+    const productList = JSON.parse(rawProductList);
+
+    return res.send(productList);
   } catch (err) {
     next(err);
   }
@@ -292,46 +284,78 @@ app.get("/products", async (req, res, next) => {
 //Create new product
 app.post("/createProduct", async (req, res, next) => {
   try {
-    pool.query(
-      `INSERT INTO product (productId, productName, productDescription, productPrice, imageSrc) VALUES (NULL, '${req.body.productName}', '${req.body.productDescription}', '${req.body.productPrice}', '${req.body.imageSrc}');`,
-      (err, result, fields) => {
-        if (err) {
-          console.log(err);
-          return res.send(false);
-        }
-        res.send(true);
-      }
+    const unparsedProductList = fs.readFileSync(__dirname + "/product.json");
+    const parsedProductList = JSON.parse(unparsedProductList);
+
+    let product = {
+      productId: uuid.v4(),
+      productName: req.body.productName,
+      productDescription: req.body.productDescription,
+      productPrice: req.body.productPrice,
+      imageSrc: req.body.imageSrc,
+    };
+    parsedProductList.push(product);
+    fs.writeFileSync(
+      __dirname + "/product.json",
+      JSON.stringify(parsedProductList)
     );
+
+    return res.send(true);
   } catch (err) {
     next(err);
   }
 });
 
 //Update product
-app.put("/updateProduct", (req, res) => {
-  pool.query(
-    `UPDATE product SET productName = '${req.body.productName}', productDescription = '${req.body.productDescription}', productPrice = '${req.body.productPrice}', imageSrc = '${req.body.imageSrc}' WHERE product.productId = ${req.body.productId};`,
-    (err, result, fields) => {
-      if (err) {
-        return console.log(err);
+app.put("/updateProduct", (req, res, next) => {
+  try {
+    let rawProductList = fs.readFileSync(__dirname + "/product.json");
+    let parsedProductList = JSON.parse(rawProductList);
+
+    for (let i = 0; i < parsedProductList.length; i++) {
+      if (parsedProductList[i].productId === req.body.productId) {
+        let updatedProduct = {
+          productId: parsedProductList[i].productId,
+          productName: req.body.productName,
+          productDescription: req.body.productDescription,
+          productPrice: req.body.productPrice,
+          imageSrc: req.body.imageSrc,
+        };
+        parsedProductList.splice(i, 1);
+
+        parsedProductList.push(updatedProduct);
+        fs.writeFileSync(
+          __dirname + "/product.json",
+          JSON.stringify(parsedProductList)
+        );
+        return res.send(true);
       }
-      res.send(result);
     }
-  );
+    return res.send(false);
+  } catch (err) {
+    next(err);
+  }
 });
 
 //Delete product
 app.delete("/deleteProduct", (req, res, next) => {
+  console.log(req.body.id);
   try {
-    pool.query(
-      `DELETE FROM product WHERE product.productId = '${req.body.id}'`,
-      (err, result, fields) => {
-        if (err) {
-          return console.log(err);
-        }
-        res.send(result);
+    let rawProductList = fs.readFileSync(__dirname + "/product.json");
+    let parsedProductList = JSON.parse(rawProductList);
+
+    for (let i = 0; i < parsedProductList.length; i++) {
+      if (parsedProductList[i].productId === req.body.id) {
+        parsedProductList.splice(i, 1);
+
+        fs.writeFileSync(
+          __dirname + "/product.json",
+          JSON.stringify(parsedProductList)
+        );
+        return res.send(true);
       }
-    );
+    }
+    return res.send(false);
   } catch (err) {
     next(err);
   }

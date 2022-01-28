@@ -469,6 +469,12 @@ footer .underline::before {
   margin: 20px;
 }
 
+.success-main i {
+  font-size: 70px;
+  margin: 20px;
+  color: #28c730;
+}
+
 /* remove or change this */
 main {
   min-height: 90vh;
