@@ -6,8 +6,8 @@ POST http://localhost:3000/createUser
 Content-Type: application/json
 
 {
-    "username": "test",
-    "pwd": "123"
+    "username": "hej",
+    "pwd": "hej"
 }
 
 ###
@@ -16,8 +16,8 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "username": "test",
-    "pwd": "123"
+    "username": "hej",
+    "pwd": "hej"
 }
 
 ###
@@ -46,11 +46,11 @@ PUT http://localhost:3000/updateProduct
 Content-Type: application/json
 
 {
-    "productName": "test2",
-    "productDescription": "test2",
+    "productName": "test",
+    "productDescription": "test",
     "productPrice": 1337,
     "imageSrc": "lorempixum.png",
-    "productId": 1
+    "productId": "c9d4c016-b85b-405c-b496-68c0262837cd"
 }
 
 ###
@@ -59,7 +59,7 @@ DELETE http://localhost:3000/deleteProduct
 Content-Type: application/json
 
 {
-    "Id": 3
+    "id": "3665eca5-6afb-445a-9dff-0afeca2ddbdc"
 }
 
 ###
