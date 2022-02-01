@@ -424,3 +424,201 @@ img {
   width: 200px;
   height: auto;
 }
+
+header {
+  font-family: "Bree Serif", serif;
+  font-family: "Quicksand", sans-serif;
+  top: 0;
+  height: 80px;
+  width: 100%;
+  position: fixed;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 5px;
+  z-index: 2;
+  transition: top 0.7s;
+}
+
+#userDisplay {
+font-weight: 150;
+font-size: 28px;
+}
+
+.mobileHeader {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+
+@media screen and(max-width: 1024px) {
+  header {
+    display: none;
+  }
+  .mobileHeader {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+
+    .mobileBars {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      i {
+        font-size: 35px;
+        cursor: pointer;
+      }
+    }
+
+    .mobileLinks {
+      width: 100%;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 90vh;
+      background-color: var(--black);
+
+      a {
+        text-decoration: none;
+        font-size: 90px;
+        margin: 30px;
+        color: var(--white);
+        cursor: pointer;
+      }
+
+      a:hover {
+        color: #b1b1ff;
+      }
+    }
+  }
+}
+
+.color {
+  background-color: rgba(0, 0, 0, 0.815);
+}
+
+.leftHeader {
+  height: inherit;
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.rightHeader {
+  height: inherit;
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.rightHeader a {
+  margin: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 12px;
+}
+
+.rightHeader #logout {
+  margin: 10px;
+  color: white;
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 0;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.rightHeader button {
+  color: white;
+  background-color: black;
+  border: none;
+  margin: auto;
+  font-size: 20px;
+  font-family: "Bree Serif", serif;
+  font-family: "Quicksand", sans-serif;
+  position: absolute;
+  top: 30%;
+}
+
+.navMenu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#logout a {
+  font-size: 20px;
+  top: 20%;
+  position: absolute;
+}
+
+.navMenu a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: inline-block;
+  width: 80px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.navMenu a:hover {
+  color: #b1b1ff;
+}
+
+.navMenu .dot {
+  width: 6px;
+  height: 6px;
+  background: #b1b1ff;
+  border-radius: 50%;
+  opacity: 0;
+  -webkit-transform: translateX(26px);
+  transform: translateX(26px);
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.navMenu a:nth-child(1):hover ~ .dot {
+  -webkit-transform: translateX(26px);
+  transform: translateX(26px);
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+}
+
+.navMenu a:nth-child(2):hover ~ .dot {
+  -webkit-transform: translateX(107px);
+  transform: translateX(107px);
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+}
+
+.navMenu a:nth-child(3):hover ~ .dot {
+  -webkit-transform: translateX(200px);
+  transform: translateX(200px);
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+}
+
+.navMenu a:nth-child(4):hover ~ .dot {
+  -webkit-transform: translateX(295px);
+  transform: translateX(295px);
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  opacity: 1;
+}
