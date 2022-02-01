@@ -30,14 +30,18 @@ const getOrders = async () => {
     rubrikerna.appendChild(headerElement);
   });
   table.appendChild(rubrikerna);
-  response.forEach((signup) => {
-    let signupRow = document.createElement("tr");
+  response.forEach((order) => {
+    let orderRow = document.createElement("tr");
     headers.forEach((header) => {
       let content = document.createElement("td");
-      content.innerText = signup[header];
-      signupRow.appendChild(content);
+      if (header === "totalPrice") {
+        content.innerText = order[header] / 100 + " :-";
+      } else {
+        content.innerText = order[header];
+      }
+      orderRow.appendChild(content);
     });
-    table.appendChild(signupRow);
+    table.appendChild(orderRow);
   });
   getOrders.appendChild(table);
 };

@@ -52,14 +52,15 @@ const showTrip = () => {
   }
   trip = JSON.parse(trip);
 
-  //Create a wrapper for every product
+  //Create a wrapper for product
   let productWrapper = document.createElement("div");
-  productWrapper.classList.add("productWrapper");
+  productWrapper.classList.add("cartProductWrapper");
 
   //Create a title
   let productTitle = document.createElement("h3");
-  productTitle.classList.add("productTitle");
-  productTitle.innerText = trip.productName;
+  productTitle.classList.add("cartProductTitle");
+  productTitle.innerText =
+    "Guess what? One step left and you're on the trip of your life, head on over to payment and we'll let you know when it's all done!";
 
   //Create an image
   let productImage = document.createElement("img");
@@ -67,19 +68,19 @@ const showTrip = () => {
 
   //Create a price
   let productPrice = document.createElement("p");
-  productPrice.classList.add("productPrice");
+  productPrice.classList.add("cartProductPrice");
   productPrice.innerText = trip.productPrice + ":-";
 
   //Create a description
   let productDescription = document.createElement("p");
-  productDescription.classList.add("productDescription");
-  productDescription.innerText = trip.productDescription;
+  productDescription.classList.add("cartProductDescription");
+  productDescription.innerText = trip.productName;
 
   productWrapper.append(
     productTitle,
     productImage,
-    productPrice,
-    productDescription
+    productDescription,
+    productPrice
   );
   container.append(productWrapper);
 };
