@@ -1,6 +1,23 @@
+let mobileLinks = document.getElementById("mobileLinks");
 window.addEventListener("load", () => {
   getProducts();
   checkIfLoggedIn();
+  mobileLinks.style.display = "none";
+});
+const barsMenu = document.getElementById("barsMenu");
+barsMenu.addEventListener("click", () => {
+  let mobileHeader = document.querySelector(".mobileHeader");
+  if (mobileLinks.style.display === "none") {
+    mobileLinks.style.display = "flex";
+    mobileHeader.style.backgroundColor = "black";
+    barsMenu.classList.replace("fa-bars", "fa-times");
+    barsMenu.style.color = "white";
+  } else {
+    mobileLinks.style.display = "none";
+    barsMenu.classList.replace("fa-times", "fa-bars");
+    mobileHeader.style.backgroundColor = "white";
+    barsMenu.style.color = "black";
+  }
 });
 
 const getProducts = async () => {

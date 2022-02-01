@@ -43,6 +43,17 @@ const getOrders = async () => {
 };
 
 let logoutDiv = document.getElementById("logout");
+let mobileLogin = document.getElementById("mobileLogin");
+
+const mobileLoginFunction = async () => {
+  if (mobileLogin.innerText === "Logout") {
+    let response = await makeRequest("/logout", "DELETE");
+    checkIfLoggedIn();
+    checkMyAccount();
+  } else {
+    location.replace("http://localhost:3000/login.html");
+  }
+};
 
 const checkIfLoggedIn = async () => {
   let userDisplay = document.getElementById("userDisplay");
@@ -55,7 +66,7 @@ const checkIfLoggedIn = async () => {
       userDisplay.innerText = "Welcome " + data.user;
       logoutDiv.innerHTML = "";
     }
-
+    mobileLogin.innerText = "Logout";
     let logoutButton = document.createElement("button");
     logoutButton.innerText = "Logout";
     logoutDiv.append(logoutButton);
@@ -65,6 +76,7 @@ const checkIfLoggedIn = async () => {
       checkMyAccount();
     });
   } else {
+    mobileLogin.innerText = "Login";
     logoutDiv.innerHTML = " ";
     let loginButton = document.createElement("a");
     loginButton.innerText = "Login";
