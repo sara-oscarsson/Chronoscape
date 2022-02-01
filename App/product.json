@@ -1,9 +1,16 @@
 [
   {
-    "productId": "c9d4c016-b85b-405c-b496-68c0262837cd",
-    "productName": "test",
-    "productDescription": "test",
-    "productPrice": "1337",
-    "imageSrc": "lorempixum.png"
+    "productId": "ba311e7e-c37f-4b44-a81e-572a12e82aa3",
+    "productName": "Jurassic",
+    "productDescription": "Travel to the jurassic era and experience the world of dinosaurs. The Jurassic constitutes the middleperiod of the Mesozoic Era and is named after the Jura Mountains, it started about 200 million years ago.",
+    "productPrice": "30000",
+    "imageSrc": "jurassic.jpg"
+  },
+  {
+    "productId": "6ef1de5e-7beb-4dce-926f-0b4a9fdf14a0",
+    "productName": "Year 2400",
+    "productDescription": "Travel to the future! The year 2400 is an exciting year, with everything from fast modern space travel to new technology we could only dream of today. Book a trip an see for yourself!",
+    "productPrice": "50000",
+    "imageSrc": "future.jpg"
   }
 ]
