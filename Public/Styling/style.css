@@ -1058,4 +1058,11 @@ header {
 .mainContact * {
   margin-top: 20px;
 }
+
+/* TERMS */
+.terms-main {
+  min-height: 90vh;
+  margin-top: 80px;
+  padding: 20px;
+}
 /*# sourceMappingURL=style.css.map */
