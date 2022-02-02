@@ -5,6 +5,12 @@ html,
   margin: 0px;
   cursor: none;
   caret-color: green;
+  text-align: center;
+}
+
+h5 {
+  color: white;
+  margin: 200px 10px 0px 10px;
 }
 
 .startContainer {
@@ -45,7 +51,6 @@ a {
 
 .gallery {
   perspective: 700px;
-  /* width:50vw; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -246,17 +251,14 @@ ul:nth-of-type(5) {
   width: 130px;
   height: 90px;
 }
-/* ul:nth-of-type(6) li {
-  background-image: url(//picsum.photos/1000/666image=943);
-}
-ul:nth-of-type(6) {
-  width: 100px;
-  height: 66px;
-}  */
- 
-  /* Hide debug label  */
-  
+
 li {
   text-indent: 999px;
   overflow: hidden;
+}
+
+@media only screen and (max-width: 768px) {
+  .mobileHidden .gallery {
+    display: none !important;
+  }
 }

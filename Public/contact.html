@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./JS/start.js" defer></script>
+    <link rel="stylesheet" href="./Styling/style.css" />
     <title>Contact</title>
     <link rel="stylesheet" href="./Styling/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,13 +22,42 @@
     />
   </head>
   <body>
-    <h1>Contact</h1>
-    <h3>
-      We would certainly like to hear from you regarding your issues or praise
-      towards Project Chronoscape. Please refer to the link below to get in
-      touch with our customer support.
-    </h3>
-    <a href="mailto: ossi_gren@hotmail.com">customersupport@chronoscape.se</a>
+    <header id="header">
+      <div class="leftHeader">
+        <h1 id="userDisplay"></h1>
+      </div>
+      <div class="mid-header">
+        <nav class="navMenu">
+          <a href="start.html">Home</a>
+          <a href="start.html#productContainer">Trips</a>
+          <a href="account.html">Account</a>
+          <a href="contact.html">Contact</a>
+          <div class="dot"></div>
+        </nav>
+      </div>
+      <div class="rightHeader">
+        <div id="logout"></div>
+      </div>
+    </header>
+    <div class="mobileHeader">
+      <div class="mobileBars"><i id="barsMenu" class="fas fa-bars"></i></div>
+      <div class="mobileLinks" id="mobileLinks">
+        <a href="start.html">Home</a>
+        <a href="start.html#productContainer">Trips</a>
+        <a href="account.html">Account</a>
+        <a href="contact.html">Contact</a>
+        <a id="mobileLogin" href="#" onclick="mobileLoginFunction()">Login</a>
+      </div>
+    </div>
+    <main class="mainContact">
+      <h1>Contact</h1>
+      <h3>
+        We would certainly like to hear from you regarding your issues or praise
+        towards Project Chronoscape. Please refer to the link below to get in
+        touch with our customer support.
+      </h3>
+      <a href="mailto: ossi_gren@hotmail.com">customersupport@chronoscape.se</a>
+    </main>
     <footer>
       <a class="underline" href="terms.html">Terms & Conditions</a>
       <a class="underline" href="contact.html">Contact Us</a>

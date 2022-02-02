@@ -23,7 +23,7 @@ const checkCart = async () => {
   removeBtn.classList.add("removeBtn");
   removeBtn.addEventListener("click", () => {
     localStorage.removeItem("cart");
-    location.replace("http://localhost:3000");
+    location.replace("http://localhost:3000/start.html");
   });
 
   //Check if customer is logged in, if true payment button appears
@@ -60,7 +60,7 @@ const showTrip = () => {
   let productTitle = document.createElement("h3");
   productTitle.classList.add("cartProductTitle");
   productTitle.innerText =
-    "Guess what? One step left and you're on the trip of your life, head on over to payment and we'll let you know when it's all done!";
+    "Guess what? One step left and you're on the trip of your life, head on over to payment and we'll let you know when it's all done! DISCLAIMER: This is solely a school project, we do not sell timetravels.";
 
   //Create an image
   let productImage = document.createElement("img");

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="./JS/start.js" defer></script>
     <script src="./JS/success.js" defer></script>
     <link rel="stylesheet" href="./Styling/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,6 +22,33 @@
     />
   </head>
   <body>
+    <header id="header">
+      <div class="leftHeader">
+        <h1 id="userDisplay"></h1>
+      </div>
+      <div class="mid-header">
+        <nav class="navMenu">
+          <a href="start.html">Home</a>
+          <a href="start.html#productContainer">Trips</a>
+          <a href="account.html">Account</a>
+          <a href="contact.html">Contact</a>
+          <div class="dot"></div>
+        </nav>
+      </div>
+      <div class="rightHeader">
+        <div id="logout"></div>
+      </div>
+    </header>
+    <div class="mobileHeader">
+      <div class="mobileBars"><i id="barsMenu" class="fas fa-bars"></i></div>
+      <div class="mobileLinks" id="mobileLinks">
+        <a href="start.html">Home</a>
+        <a href="start.html#productContainer">Trips</a>
+        <a href="account.html">Account</a>
+        <a href="contact.html">Contact</a>
+        <a id="mobileLogin" href="#" onclick="mobileLoginFunction()">Login</a>
+      </div>
+    </div>
     <main class="success-main">
       <h3>Transaction complete, thank you for your purchase!</h3>
       <i class="far fa-check-circle"></i>
