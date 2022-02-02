@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chronologin</title>
+    <script src="./JS/start.js" defer></script>
     <script src="./JS/login.js" defer></script>
     <link rel="stylesheet" href="./Styling/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,9 +14,42 @@
       href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Quicksand:wght@500&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <main>
+    <header id="header">
+      <div class="leftHeader">
+        <h1 id="userDisplay"></h1>
+      </div>
+      <div class="mid-header">
+        <nav class="navMenu">
+          <a href="start.html">Home</a>
+          <a href="start.html#productContainer">Trips</a>
+          <a href="account.html">Account</a>
+          <a href="contact.html">Contact</a>
+          <div class="dot"></div>
+        </nav>
+      </div>
+      <div class="rightHeader">
+        <div id="logout"></div>
+      </div>
+    </header>
+    <div class="mobileHeader">
+      <div class="mobileBars"><i id="barsMenu" class="fas fa-bars"></i></div>
+      <div class="mobileLinks" id="mobileLinks">
+        <a href="start.html">Home</a>
+        <a href="start.html#productContainer">Trips</a>
+        <a href="account.html">Account</a>
+        <a href="contact.html">Contact</a>
+        <a id="mobileLogin" href="#" onclick="mobileLoginFunction()">Login</a>
+      </div>
+    </div>
+    <main class="mainLogin">
       <div class="loginWrapper">
         <div class="loginContainer">
           <h3>Sign in to Chronoscape</h3>
@@ -42,7 +76,7 @@
     <footer>
       <a class="underline" href="terms.html">Terms & Conditions</a>
       <a class="underline" href="contact.html">Contact Us</a>
-      <a class="underline" href="#">Reviews</a>
+      <a class="underline" href="privacy.html">Privacy Policy</a>
     </footer>
   </body>
 </html>

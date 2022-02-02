@@ -1,8 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@900&display=swap");
 * {
   margin: 0px;
   padding: 0px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  font-family: "Bree Serif", serif;
+  font-family: "Quicksand", sans-serif;
+  scroll-behavior: smooth;
 }
 
 :root {
@@ -13,6 +17,20 @@
 }
 
 /* LOGIN */
+.mainLogin {
+  width: 100%;
+  min-height: 90vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 .loginWrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -32,7 +50,7 @@
           box-shadow: var(--gray) 0px 8px 24px;
   border-radius: 3px;
   width: 40%;
-  margin: 40px auto;
+  margin: 130px auto;
   text-align: left;
 }
 
@@ -119,8 +137,10 @@
 /* ADMIN */
 .adminBody * {
   text-align: center;
-  font-family: "Bree Serif", serif;
-  font-family: "Quicksand", sans-serif;
+}
+
+.adminBody .adminMain {
+  margin-top: 80px;
 }
 
 .adminBody h3 {
@@ -179,26 +199,6 @@
 .adminBody button:hover {
   -webkit-box-shadow: none;
           box-shadow: none;
-}
-
-.adminBody header {
-  width: 100%;
-  height: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 10px;
-  background: var(--white);
-}
-
-.adminBody header h1 {
-  font-size: 14px;
 }
 
 .adminBody main {
@@ -288,6 +288,9 @@
 
 /* ADMIN MOBILE */
 @media screen and (max-width: 768px) {
+  .adminBody .adminMain {
+    margin-top: 0px;
+  }
   .adminBody .adminProductWrapper {
     max-width: none;
     padding: 5px;
@@ -368,10 +371,10 @@ footer .underline::before {
 
 /* ACCOUNT */
 .account-main {
-  /* change */
-  background: #f5f5f5;
   padding: 20px;
   text-align: center;
+  min-height: 90vh;
+  margin-top: 70px;
 }
 
 .account-main h3 {
@@ -398,8 +401,8 @@ footer .underline::before {
 }
 
 .account-main th {
-  background: #c9cef3;
-  color: var(--white);
+  background: #f5f5f5;
+  color: var(--black);
 }
 
 .account-main tr:hover,
@@ -410,6 +413,9 @@ footer .underline::before {
 
 /* MOBILE ACCOUNT */
 @media screen and (max-width: 768px) {
+  .account-main {
+    margin-top: 0px;
+  }
   .account-main table,
   .account-main thead,
   .account-main tbody,
@@ -460,6 +466,17 @@ footer .underline::before {
 /* SUCCESS */
 .success-main {
   text-align: center;
+  min-height: 90vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .success-main h3 {
@@ -496,17 +513,17 @@ footer .underline::before {
   font-family: "Quicksand", sans-serif;
   position: relative;
   color: var(--white);
+  margin-top: 40px;
 }
 
 .cartProductWrapper img {
   width: 100%;
   height: auto;
-  /*  opacity: 0.9; */
 }
 
 .cartProductWrapper .cartProductTitle {
   position: absolute;
-  top: 30px;
+  top: 70px;
   max-width: 90%;
 }
 
@@ -556,9 +573,17 @@ footer .underline::before {
           box-shadow: none;
 }
 
+@media screen and (max-width: 1024px) {
+  #paymentContainer {
+    top: 400px;
+    z-index: 1;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .cartProductWrapper {
     color: var(--black);
+    margin-top: 0px;
   }
   .cartProductWrapper .cartProductTitle {
     position: relative;
@@ -586,12 +611,7 @@ footer .underline::before {
   }
 }
 
-/* remove or change this */
-main {
-  min-height: 90vh;
-  width: 100%;
-}
-
+/* HEADER */
 header {
   font-family: "Bree Serif", serif;
   font-family: "Quicksand", sans-serif;
@@ -620,7 +640,7 @@ header {
 
 #userDisplay {
   font-weight: 150;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 .mobileHeader {
@@ -642,6 +662,7 @@ header {
         -ms-flex-direction: column;
             flex-direction: column;
     padding: 40px;
+    z-index: 999;
   }
   .mobileHeader .mobileBars {
     display: -webkit-box;
@@ -653,8 +674,9 @@ header {
     width: 100%;
   }
   .mobileHeader .mobileBars i {
-    font-size: 35px;
+    font-size: 25px;
     cursor: pointer;
+    z-index: 999;
   }
   .mobileHeader .mobileLinks {
     width: 100%;
@@ -671,10 +693,11 @@ header {
             align-items: center;
     min-height: 90vh;
     background-color: var(--black);
+    z-index: 999;
   }
   .mobileHeader .mobileLinks a {
     text-decoration: none;
-    font-size: 90px;
+    font-size: 30px;
     margin: 30px;
     color: var(--white);
     cursor: pointer;
@@ -763,7 +786,7 @@ header {
 }
 
 #logout a {
-  font-size: 20px;
+  font-size: 18px;
   top: 20%;
   position: absolute;
 }
@@ -771,13 +794,21 @@ header {
 .navMenu a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 1.2em;
+  font-size: 16px;
   text-transform: uppercase;
   font-weight: 500;
   display: inline-block;
-  width: 80px;
+  width: 95px;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+
+.navMenu a:nth-of-type(1) {
+  width: 70px;
+}
+
+.navMenu a:nth-of-type(2) {
+  width: 70px;
 }
 
 .navMenu a:hover {
@@ -797,34 +828,234 @@ header {
 }
 
 .navMenu a:nth-child(1):hover ~ .dot {
-  -webkit-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(22px);
+  transform: translateX(22px);
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   opacity: 1;
 }
 
 .navMenu a:nth-child(2):hover ~ .dot {
-  -webkit-transform: translateX(107px);
-  transform: translateX(107px);
+  -webkit-transform: translateX(96px);
+  transform: translateX(96px);
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   opacity: 1;
 }
 
 .navMenu a:nth-child(3):hover ~ .dot {
-  -webkit-transform: translateX(200px);
-  transform: translateX(200px);
+  -webkit-transform: translateX(183px);
+  transform: translateX(183px);
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   opacity: 1;
 }
 
 .navMenu a:nth-child(4):hover ~ .dot {
-  -webkit-transform: translateX(295px);
-  transform: translateX(295px);
+  -webkit-transform: translateX(285px);
+  transform: translateX(285px);
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   opacity: 1;
+}
+
+/* START */
+.startMain {
+  width: 100%;
+  margin-top: 90px;
+  text-align: center;
+}
+
+.startMain h1 {
+  margin: 30px 30px 30px 30px;
+}
+
+.startMain .startContainer {
+  height: 200vh;
+}
+
+.startMain .container {
+  /* hide fixed overflow contents */
+  clip: rect(0, auto, auto, 0);
+  /* does not work if overflow = visible */
+  overflow: hidden;
+  /* only works with absolute positioning */
+  position: absolute;
+  /* Make sure containers are full-width and height */
+  height: 100vh;
+  left: 0;
+  width: 100%;
+  /* safari hack */
+  -webkit-mask-image: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 100%);
+}
+
+.startMain .container_solid {
+  background: white;
+  /* position this container at the top of its parent element */
+  top: 0;
+}
+
+.startMain .title_wrapper {
+  position: fixed;
+  display: block;
+  margin: auto;
+  width: 100%;
+  /* center the text wrapper vertically */
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.startMain .title_wrapper h1 {
+  text-align: center;
+  font-size: 64px;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: "Fraunces", serif;
+  font-weight: 900;
+}
+
+.startMain .container_solid .title_wrapper h1 {
+  /* the text background */
+  background: url(https://images.unsplash.com/photo-1501139083538-0139583c060f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80);
+  background-size: 100vw auto;
+  background-position: center;
+  /* clip the text is possible */
+  text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  /* fallback text color */
+  color: black;
+}
+
+.startMain .container_image {
+  /* Grab a free image from unsplash */
+  background-image: url(https://images.unsplash.com/photo-1501139083538-0139583c060f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80);
+  background-size: 100vw 100vh;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  /* position the second container below the first container */
+  top: 100vh;
+}
+
+.startMain .container_image .title_wrapper h1 {
+  color: white;
+}
+
+.startMain #productContainer {
+  height: 100vh;
+  padding: 2em;
+  margin: auto;
+  max-width: 1400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.startMain #productContainer .mainWrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.startMain #productContainer .mainWrapper .productWrapper {
+  position: relative;
+  width: 30%;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  border-radius: 10px;
+  padding: 20px;
+  height: auto;
+  margin: 40px auto;
+}
+
+.startMain #productContainer .mainWrapper .productWrapper .productDescription {
+  height: 130px;
+}
+
+.startMain #productContainer .mainWrapper .productWrapper button {
+  margin: 20px 0px;
+  border-radius: 50px;
+  border: none;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 10px;
+  width: 180px;
+  cursor: pointer;
+}
+
+.startMain #productContainer .mainWrapper .productWrapper * {
+  margin: 20px auto;
+}
+
+.startMain #productContainer .mainWrapper .productWrapper img {
+  height: 300px;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  .startMain {
+    margin-top: 0px;
+  }
+  .startMain h1 {
+    margin: 0px 30px 30px 30px;
+  }
+  .startMain #productContainer {
+    height: auto;
+  }
+  .startMain #productContainer .mainWrapper .productWrapper {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .startMain .title_wrapper h1 {
+    font-size: 40px;
+  }
+}
+
+/* CONTACT */
+.mainContact {
+  min-height: 90vh;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 20px;
+}
+
+.mainContact * {
+  margin-top: 20px;
 }
 /*# sourceMappingURL=style.css.map */

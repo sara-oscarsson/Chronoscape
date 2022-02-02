@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chronoscape</title>
+    <script src="./JS/start.js" defer></script>
     <script src="/JS/user.js" defer></script>
     <script src="./JS/main.js" defer></script>
-    <script src="./JS/start.js" defer></script>
     <link rel="stylesheet" href="./Styling/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,10 +29,10 @@
       </div>
       <div class="mid-header">
         <nav class="navMenu">
-          <a href="#">Home</a>
-          <a href="#">Trips</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
+          <a href="start.html">Home</a>
+          <a href="#productContainer">Trips</a>
+          <a href="account.html">Account</a>
+          <a href="contact.html">Contact</a>
           <div class="dot"></div>
         </nav>
       </div>
@@ -43,21 +43,33 @@
     <div class="mobileHeader">
       <div class="mobileBars"><i id="barsMenu" class="fas fa-bars"></i></div>
       <div class="mobileLinks" id="mobileLinks">
-        <a href="#">Home</a>
-        <a href="#">Trips</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="start.html">Home</a>
+        <a href="#productContainer">Trips</a>
+        <a href="account.html">Account</a>
+        <a href="contact.html">Contact</a>
         <a id="mobileLogin" href="#" onclick="mobileLoginFunction()">Login</a>
       </div>
     </div>
-    <main>
-      <h1>Startsida</h1>
+    <main class="startMain">
+      <div class="startContainer">
+        <div class="container container_solid">
+          <div class="title_wrapper">
+            <h1>Begin your journey.</h1>
+          </div>
+        </div>
+        <div class="container container_image" aria-hidden="true">
+          <div class="title_wrapper">
+            <h1>Begin your journey.</h1>
+          </div>
+        </div>
+      </div>
+
       <div id="productContainer"></div>
     </main>
     <footer>
       <a class="underline" href="terms.html">Terms & Conditions</a>
       <a class="underline" href="contact.html">Contact Us</a>
-      <a class="underline" href="#">Reviews</a>
+      <a class="underline" href="privacy.html">Privacy Policy</a>
     </footer>
   </body>
 </html>
