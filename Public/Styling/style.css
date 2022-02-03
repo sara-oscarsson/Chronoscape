@@ -546,12 +546,27 @@ footer .underline::before {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   margin: 40px 0px;
   position: absolute;
   top: 300px;
+}
+
+#paymentContainer .shipping h5 {
+  color: var(--white);
+  margin: 10px;
+  text-shadow: 2px 2px 2px 2px black;
+}
+
+#paymentContainer div a {
+  color: var(--white);
+  margin-left: 5px;
 }
 
 #paymentContainer button {
@@ -605,9 +620,34 @@ footer .underline::before {
     position: relative;
     margin: 10px 0px;
   }
+  #paymentContainer .shipping h5 {
+    color: var(--black);
+    margin: 10px;
+  }
+  #paymentContainer div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 100%;
+    padding: 10px;
+  }
+  #paymentContainer div input {
+    margin-left: 10px;
+  }
+  #paymentContainer div a {
+    color: var(--black);
+    margin-left: 10px;
+  }
   #paymentContainer button {
     background-color: var(--black);
     color: var(--white);
+    margin: 20px 5px 20px 5px;
   }
 }
 

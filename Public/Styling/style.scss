@@ -469,10 +469,26 @@ footer {
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   margin: 40px 0px;
   position: absolute;
   top: 300px;
+
+  .shipping {
+    h5 {
+      color: var(--white);
+      margin: 10px;
+      text-shadow: 2px 2px 2px 2px black;
+    }
+  }
+
+  div {
+    a {
+      color: var(--white);
+      margin-left: 5px;
+    }
+  }
 
   button {
     border: none;
@@ -526,9 +542,31 @@ footer {
     position: relative;
     margin: 10px 0px;
 
+    .shipping {
+      h5 {
+        color: var(--black);
+        margin: 10px;
+      }
+    }
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+      input {
+        margin-left: 10px;
+      }
+      a {
+        color: var(--black);
+        margin-left: 10px;
+      }
+    }
+
     button {
       background-color: var(--black);
       color: var(--white);
+      margin: 20px 5px 20px 5px;
     }
   }
 }
