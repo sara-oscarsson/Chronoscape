@@ -76,7 +76,6 @@ registerBtn.addEventListener("click", async () => {
       return result.json();
     })
     .then((answer) => {
-      console.log(answer);
       if (!answer.login) {
         alert(answer.message);
         return;

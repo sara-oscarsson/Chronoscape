@@ -27,7 +27,7 @@ const showProducts = (products) => {
     //Create an image
     let productImage = document.createElement("img");
     productImage.src = "./productImages/" + product.imageSrc;
-
+    productImage.alt = product.imageSrc;
     //Create a price
     let productPrice = document.createElement("p");
     productPrice.classList.add("productPrice");

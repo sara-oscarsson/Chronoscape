@@ -31,6 +31,7 @@ const getListOfProducts = async () => {
     let productImage = document.createElement("img");
     productImage.src = "./productImages/" + product.imageSrc;
     productImage.style.width = "25%";
+    productImage.alt = product.imageSrc;
 
     //Create a price
     let productPrice = document.createElement("p");
