@@ -65,6 +65,7 @@ const showTrip = () => {
   //Create an image
   let productImage = document.createElement("img");
   productImage.src = "./productImages/" + trip.imageSrc;
+  productImage.alt = trip.imageSrc;
 
   //Create a price
   let productPrice = document.createElement("p");
