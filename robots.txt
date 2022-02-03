@@ -1,0 +1,4 @@
+User-agent: Googlebot
+Disallow: /admin.html
+Disallow: /login.html
+Disallow: /account.html

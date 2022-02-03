@@ -31,14 +31,29 @@ const checkCart = async () => {
   console.log(data);
   let payBtn = document.createElement("button");
   if (data) {
+    let containerTerms = document.createElement("div");
+    let containerButtons = document.createElement("div");
+    let shipping = document.createElement("div");
+    shipping.innerHTML =
+      "<h5>Once purchased you'll be contacted about a date that suits you</h5>";
+    shipping.classList.add("shipping");
     payBtn.innerText = "Pay";
     payBtn.addEventListener("click", paymentWithStripe);
+    let agreeCheckBox = document.createElement("input");
+    agreeCheckBox.type = "checkbox";
+    agreeCheckBox.id = "agreed";
+    let terms = document.createElement("a");
+    terms.href = "terms.html";
+    terms.innerText =
+      "I have read and agreed to the websites Terms & Conditions";
+    containerTerms.append(agreeCheckBox, terms);
+    containerButtons.append(removeBtn, payBtn);
+    paymentContainer.append(shipping, containerTerms, containerButtons);
   } else {
     payBtn.innerText = "Login to travel";
     payBtn.disabled = true;
+    paymentContainer.append(removeBtn, payBtn);
   }
-
-  paymentContainer.append(removeBtn, payBtn);
 };
 
 const showTrip = () => {
@@ -86,6 +101,14 @@ const showTrip = () => {
 };
 
 const paymentWithStripe = async () => {
+  let agreed = document.getElementById("agreed");
+  if (!agreed.checked) {
+    alert(
+      "You have to agree to the websites Terms and Conditions to purchase a trip"
+    );
+    return;
+  }
+
   let currentCart = localStorage.getItem("cart");
   let response = await fetch("/payment", {
     headers: { "Content-Type": "application/json" },

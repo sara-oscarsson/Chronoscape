@@ -20,7 +20,7 @@ const showProducts = (products) => {
     productWrapper.classList.add("productWrapper");
 
     //Create a title
-    let productTitle = document.createElement("h3");
+    let productTitle = document.createElement("h1");
     productTitle.classList.add("productTitle");
     productTitle.innerText = product.productName;
 
