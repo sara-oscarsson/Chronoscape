@@ -927,3 +927,17 @@ header {
     margin-top: 20px;
   }
 }
+
+/* TERMS */
+
+.terms-main {
+  min-height: 90vh;
+  margin-top: 80px;
+  padding: 20px;
+}
+
+@media screen and(max-width: 768px) {
+  .terms-main {
+    margin-top: 0px;
+  }
+}
